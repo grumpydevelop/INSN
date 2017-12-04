@@ -122,9 +122,9 @@ static const unsigned char REJECT_INVALID = 0x10;
 /** MasterNode required collateral */
 inline int64_t MasternodeCollateral(int nHeight) { return 50000; } // 50K INSN required as collateral
 /** Coinbase transaction outputs can only be staked after this number of new blocks (network rule) */
-static const int nStakeMinConfirmations = 15;
+static const int nStakeMinConfirmations = 5;
 /** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
-static const int nCoinbaseMaturity = 15; // 15-TXs | 90-Mined
+static const int nCoinbaseMaturity = 5; // 15-TXs | 90-Mined
 /** Minimum nCoinAge required to stake PoS */
 static const unsigned int nStakeMinAge = 2 / 60; // 30 minutes
 /** Time to elapse before new modifier is computed */
