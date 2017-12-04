@@ -73,6 +73,28 @@ public:
         genesis.nTime    = 1493596800; // Mon, 01 May 2017 00:00:00 GMT
         genesis.nBits    = bnProofOfWorkLimit.GetCompact();
         genesis.nNonce   = 192744;
+        
+         if (true  && (genesis.GetHash() != hashGenesisBlock)) {
+
+                         //This will figure out a valid hash and Nonce if you're
+                        // creating a different genesis block:
+                            uint256 hashTarget = CBigNum().SetCompact(genesis.nBits).getuint256();
+                            while (genesis.GetHash() > hashTarget)
+                               {
+                                   ++genesis.nNonce;
+                                   if (genesis.nNonce == 0)
+                                   {
+                                       printf("NONCE WRAPPED, incrementing time");
+                                       ++genesis.nTime;
+                                   }
+                               }
+                        }
+                printf("block.GetHash() == 0x%s\n", genesis.GetHash().ToString().c_str());
+                printf("block.hashMerkleRoot == 0x%s\n", genesis.hashMerkleRoot.ToString().c_str());
+                printf("block.nTime = %u \n", genesis.nTime);
+                printf("block.nNonce = %u \n", genesis.nNonce);
+
+
 
         /** Genesis Block MainNet */
         /*
