@@ -151,8 +151,8 @@ public:
         pchMessageStart[1] = 0xcc;
         pchMessageStart[2] = 0xc3;
         pchMessageStart[3] = 0xca;
-        bnProofOfWorkLimit = CBigNum(~uint256(0) >> 16);
-        bnProofOfStakeLimit = CBigNum(~uint256(0) >> 16);
+        bnProofOfWorkLimit = CBigNum(~uint256(0) >> 18);
+        bnProofOfStakeLimit = CBigNum(~uint256(0) >> 18);
         vAlertPubKey = ParseHex("04ac24ab003c828cdd9cf4db2ebbde8e1cecb3bbfa8b3127fcb9dd9b84d44112080827ed7c49a648af9fe788ff42e316aee665879c553f099e55299d6b54edd7e0");
         nDefaultPort = 10260;
         nRPCPort = 10262;
@@ -200,7 +200,7 @@ public:
         pchMessageStart[1] = 0xaf;
         pchMessageStart[2] = 0x4f;
         pchMessageStart[3] = 0x3e;
-        bnProofOfWorkLimit = CBigNum(~uint256(0) >> 1);
+        bnProofOfWorkLimit = CBigNum(~uint256(0) >> 18);
         genesis.nTime = 1493596800+90;
         genesis.nBits  = bnProofOfWorkLimit.GetCompact();
         genesis.nNonce = 8;
