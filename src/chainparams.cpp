@@ -89,10 +89,10 @@ public:
                                    }
                                }
                         }
-                printf("block.GetHash() == 0x%s\n", genesis.GetHash().ToString().c_str());
-                printf("block.hashMerkleRoot == 0x%s\n", genesis.hashMerkleRoot.ToString().c_str());
-                printf("block.nTime = %u \n", genesis.nTime);
-                printf("block.nNonce = %u \n", genesis.nNonce);
+                printf("0x%s\n", genesis.GetHash().ToString().c_str());
+                printf("0x%s\n", genesis.hashMerkleRoot.ToString().c_str());
+                printf("%u\n", genesis.nTime);
+                printf("%u\n", genesis.nNonce);
 
 
 
