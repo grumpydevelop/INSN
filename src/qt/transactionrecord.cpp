@@ -34,6 +34,11 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
     CAmount nDebit = wtx.GetDebit(ISMINE_ALL);
     CAmount nNet = nCredit - nDebit;
     uint256 hash = wtx.GetHash(), hashPrev = 0;
+    std::string txcomment = "";
+    if (!wtx.strTxComment.empty())
+    {
+        txcomment = wtx.strTxComment;
+    }
     std::map<std::string, std::string> mapValue = wtx.mapValue;
 
     if (nNet > 0 || wtx.IsCoinBase() || wtx.IsCoinStake())
