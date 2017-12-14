@@ -2453,6 +2453,18 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64_t> >& vecSend, 
                     }
                     return false;
                 }
+                
+                if (txNew.strTxComment.length() > 0)
+                {
+                    uint256 msghash = Hash(txNew.strTxComment.begin(), txNew.strTxComment.end());
+                    std::vector<unsigned char> opdata;
+                    opdata.insert(opdata.end(), msghash.begin(), msghash.end());
+                    CScript scrout = CScript() << OP_RETURN << opdata;
+                    CTxOut txmsgTxOut(0, scrout);
+                    txNew.vout.push_back(txmsgTxOut);
+                    nBytesPenalty += 1000;
+                }
+                
                 BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, setCoins)
                 {
                     int64_t nCredit = pcoin.first->vout[pcoin.second].nValue;
