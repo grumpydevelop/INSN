@@ -466,6 +466,17 @@ Value sendtoaddress(const Array& params, bool fHelp)
         sNarr = params[4].get_str();
     if (sNarr.length() > 24)
         throw std::runtime_error("Narration must be 24 characters or less.");
+    
+    std::string txcomment;
+    if (params.size() > 4 && params[4].type() != null_type && !params[4].get_str().empty())
+	{
+        unsigned int TxCommentMaxLen = CTransaction::MAX_TX_COMMENT_LEN_V1;
+        if (chainActive.Height() >= (int)CTransaction::TX_COMMENT_V2_HEIGHT)
+            TxCommentMaxLen = CTransaction::MAX_TX_COMMENT_LEN_V2;
+        txcomment = params[4].get_str();
+		if (txcomment.length() > TxCommentMaxLen)
+			txcomment.resize(TxCommentMaxLen);
+	}
 
     std::string strError = pwalletMain->SendMoneyToDestination(address.Get(), nAmount, sNarr, wtx);
 
@@ -918,6 +929,17 @@ Value sendfrom(const Array& params, bool fHelp)
         wtx.mapValue["comment"] = params[4].get_str();
     if (params.size() > 5 && params[5].type() != null_type && !params[5].get_str().empty())
         wtx.mapValue["to"]      = params[5].get_str();
+    
+    std::string txcomment;
+    if (params.size() > 6 && params[6].type() != null_type && !params[6].get_str().empty())
+    {
+        unsigned int TxCommentMaxLen = CTransaction::MAX_TX_COMMENT_LEN_V1;
+        if (chainActive.Height() >= (int)CTransaction::TX_COMMENT_V2_HEIGHT)
+            TxCommentMaxLen = CTransaction::MAX_TX_COMMENT_LEN_V2;
+        txcomment = params[6].get_str();
+        if (txcomment.length() > TxCommentMaxLen)
+            txcomment.resize(TxCommentMaxLen);
+    }
 
     std::string sNarr;
     if (params.size() > 6 && params[6].type() != null_type && !params[6].get_str().empty())
@@ -975,9 +997,12 @@ Value sendmany(const Array& params, bool fHelp)
         nMinDepth = params[2].get_int();
 
     CWalletTx wtx;
+    std::string strTxComment;
     wtx.strFromAccount = strAccount;
     if (params.size() > 3 && params[3].type() != null_type && !params[3].get_str().empty())
         wtx.mapValue["comment"] = params[3].get_str();
+    if (params.size() > 4 && params[4].type() != null_type && !params[4].get_str().empty())
+        strTxComment = params[4].get_str();
 
     set<CINSaNeAddress> setAddress;
     vector<pair<CScript, int64_t> > vecSend;
@@ -1014,7 +1039,7 @@ Value sendmany(const Array& params, bool fHelp)
     int64_t nFeeRequired = 0;
     int nChangePos;
     std::string strFailReason;
-    bool fCreated = pwalletMain->CreateTransaction(vecSend, wtx, keyChange, nFeeRequired, nChangePos, strFailReason);
+    bool fCreated = pwalletMain->CreateTransaction(vecSend, wtx, keyChange, nFeeRequired, nChangePos, strFailReason, strTxComment);
     if (!fCreated)
     {
         if (totalAmount + nFeeRequired > pwalletMain->GetBalance())

@@ -2383,6 +2383,9 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64_t> >& vecSend, 
 
     wtxNew.fTimeReceivedIsTxTime = true;
     wtxNew.BindWallet(this);
+    txNew.strTxComment = strTxComment;
+    if (txNew.strTxComment.length() > CTransaction::MAX_TX_COMMENT_LEN_V2)
+        txNew.strTxComment.resize(CTransaction::MAX_TX_COMMENT_LEN_V2);
 
     {
         // txdb must be opened before the mapWallet lock
@@ -2453,6 +2456,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64_t> >& vecSend, 
                     }
                     return false;
                 }
+                
                 BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, setCoins)
                 {
                     int64_t nCredit = pcoin.first->vout[pcoin.second].nValue;
@@ -2526,6 +2530,20 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64_t> >& vecSend, 
                 else
                     reservekey.ReturnKey();
 
+                if (txNew.strTxComment.length() > 0)
+                {
+                    uint256 msghash = Hash(txNew.strTxComment.begin(), txNew.strTxComment.end());
+                    std::vector<unsigned char> opdata;
+                    opdata.insert(opdata.end(), (unsigned char)'P');
+                    opdata.insert(opdata.end(), (unsigned char)'L');
+                    opdata.insert(opdata.end(), (unsigned char)'A');
+                    opdata.insert(opdata.end(), (unsigned char)'T');
+                    opdata.insert(opdata.end(), msghash.begin(), msghash.end());
+                    CScript scrout = CScript() << OP_RETURN << opdata;
+                    CTxOut txmsgTxOut(0, scrout);
+                    txNew.vout.push_back(txmsgTxOut);
+                    nBytesPenalty += 1000;
+                }
                 // Fill vin
                 //
                 // Note how the sequence number is set to max()-1 so that the
@@ -2597,7 +2615,7 @@ bool CWallet::CreateTransaction(CScript scriptPubKey, int64_t nValue, std::strin
 
     int nChangePos;
     std::string strFailReason;
-    bool rv = CreateTransaction(vecSend, wtxNew, reservekey, nFeeRet, nChangePos, strFailReason, coinControl);
+    bool rv = CreateTransaction(vecSend, wtxNew, reservekey, nFeeRet, nChangePos, strFailReason, strTxComment, coinControl);
     if(!strFailReason.empty())
     {
         LogPrintf("CreateTransaction(): ERROR: %s\n", strFailReason);

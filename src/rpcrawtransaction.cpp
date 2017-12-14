@@ -104,6 +104,7 @@ void TxToJSON(const CTransaction& tx, const uint256 hashBlock, Object& entry)
                 entry.push_back(Pair("confirmations", 0));
         }
     }
+	entry.push_back(Pair("tx-comment", tx.strTxComment));
 }
 
 Value getrawtransaction(const Array& params, bool fHelp)
@@ -249,6 +250,17 @@ Value createrawtransaction(const Array& params, bool fHelp)
     Object sendTo = params[1].get_obj();
 
     CTransaction rawTx;
+    #CMutableTransaction rawTx;
+
+    if (params.size() == 3)
+    {
+        std::string txcomment = params[2].get_str();
+        if (txcomment.length() > CTransaction::MAX_TX_COMMENT_LEN_V2)
+        {
+            txcomment.resize(CTransaction::MAX_TX_COMMENT_LEN_V2);
+        }
+        rawTx.strTxComment = txcomment;
+    }
 
     BOOST_FOREACH(Value& input, inputs)
     {
