@@ -2383,6 +2383,9 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64_t> >& vecSend, 
 
     wtxNew.fTimeReceivedIsTxTime = true;
     wtxNew.BindWallet(this);
+    txNew.strTxComment = strTxComment;
+    if (txNew.strTxComment.length() > CTransaction::MAX_TX_COMMENT_LEN_V2)
+        txNew.strTxComment.resize(CTransaction::MAX_TX_COMMENT_LEN_V2);
 
     {
         // txdb must be opened before the mapWallet lock
