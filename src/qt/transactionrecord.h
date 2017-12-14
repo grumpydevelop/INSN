@@ -102,7 +102,6 @@ public:
                 Type type, const std::string &address,
                 const CAmount& debit, const CAmount& credit,
                 const std::string &txcomment):
-                CAmount debit, CAmount credit):
             hash(hash), time(time), type(type), address(address), debit(debit), credit(credit),
             txcomment(txcomment), idx(0)
     {
