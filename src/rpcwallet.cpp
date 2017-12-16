@@ -423,7 +423,7 @@ Value sendtoaddress(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() < 2 || params.size() > 4)
         throw runtime_error(
-            "sendtoaddress \"Platinum\" amount ( \"comment\" \"comment-to\" \"txcomment\" )\n"
+            "sendtoaddress \"INSaNe\" amount ( \"comment\" \"comment-to\" \"txcomment\" )\n"
             "\nSent an amount to a given address. The amount is a real and is rounded to the nearest 0.00000001\n"
             + HelpRequiringPassphrase() +
             "\nArguments:\n"
@@ -884,7 +884,7 @@ Value sendfrom(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() < 3 || params.size() > 7)
         throw runtime_error(
-            "sendfrom \"fromaccount\" \"toPlatinum\" amount ( minconf \"comment\" \"comment-to\" \"txcomment\" )\n"
+            "sendfrom \"fromaccount\" \"toINSaNe\" amount ( minconf \"comment\" \"comment-to\" \"txcomment\" )\n"
             "\nSent an amount from an account to a INSaNe address.\n"
             "The amount is a real and is rounded to the nearest 0.00000001."
             + HelpRequiringPassphrase() + "\n"
