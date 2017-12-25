@@ -38,7 +38,7 @@ class CReserveKey;
 class CWallet;
 
 /** Height to introduce comments in transactions */
-static const int HEIGHT_TXCOMMENT = 210000;
+static const int HEIGHT_TXCOMMENT = 1;
 /** Maximum length of comments in transactions (including "text:") */
 static const unsigned int MAX_TXCOMMENT_LEN = 1024;
 /** The maximum allowed multiple for the computed block size */
