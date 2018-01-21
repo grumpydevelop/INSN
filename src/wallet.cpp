@@ -2990,7 +2990,7 @@ string CWallet::SendStealthMoney(CScript scriptPubKey, int64_t nValue, std::vect
         LogPrintf("SendStealthMoney() : %s\n", strError.c_str());
         return strError;
     }
-    if (!CreateStealthTransaction(scriptPubKey, nValue, P, narr, sNarr, wtxNew, reservekey, nFeeRequired))
+    if (!CreateStealthTransaction(scriptPubKey, nValue, P, narr, sNarr, wtxNew, reservekey, nFeeRequired, strTxComment))
     {
         string strError;
         if (nValue + nFeeRequired > GetBalance())
