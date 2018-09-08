@@ -96,11 +96,11 @@ static const int64_t COIN_SPRB_REWARD_FIXED = 3 * CENT; // 3%
 /** MN Reward Fixed */
 static const int64_t MN_REWARD_FIXED = 9 * CENT; // 9% total, 1.5%/3% for standard net, 7.5%/6% for MNs
 /** Block spacing preferred */
-static const int64_t BLOCK_SPACING = 5 * 60;
+static const int64_t BLOCK_SPACING = 2 * 60;
 /** Block spacing minimum */
-static const int64_t BLOCK_SPACING_MIN = 3.5 * 60;
+static const int64_t BLOCK_SPACING_MIN = 1 * 60;
 /** Block spacing maximum */
-static const int64_t BLOCK_SPACING_MAX = 7.5 * 60;
+static const int64_t BLOCK_SPACING_MAX = 3 * 60;
 /** Darksend collateral */
 static const int64_t DARKSEND_COLLATERAL = (0.01*COIN);
 /** Darksend pool values */
